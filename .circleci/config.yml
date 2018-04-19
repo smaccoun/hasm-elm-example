@@ -34,7 +34,7 @@ jobs:
 
       - run:
           name: install_awsebcli
-          command: pip install --upgrade --user awsebcli<Paste>
+          command: pip install --upgrade --user awsebcli
 
       - run:
           name: install hasm
