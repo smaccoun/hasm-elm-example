@@ -8,16 +8,6 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: install hasm
-          command: |
-            git clone git@github.com:smaccoun/create-haskstar-app.git
-            cd create-haskstar-app
-            ./install.sh
-            rm -rf create-haskstar-app
-            cd ../
-
-
       - setup_remote_docker:
           docker_layer_caching: true
 
@@ -45,6 +35,15 @@ jobs:
       - run:
           name: install_awsebcli
           command: pip install --upgrade --user awsebcli<Paste>
+
+      - run:
+          name: install hasm
+          command: |
+            git clone git@github.com:smaccoun/create-haskstar-app.git
+            cd create-haskstar-app
+            ./install.sh
+            rm -rf create-haskstar-app
+            cd ../
 
 
       - run:
