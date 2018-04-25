@@ -8,6 +8,13 @@ jobs:
     steps:
       - checkout
 
+      - restore-cache:
+          keys:
+            - stack-{{ checksum “stack.yaml” }}
+      - restore-cache:
+          keys:
+            - stack-{{checksum “stack.yaml”}}-{{checksum “project.cabal”}}
+
       - setup_remote_docker:
           docker_layer_caching: true
 
@@ -19,9 +26,34 @@ jobs:
             curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
             tar -xz -C /tmp -f /tmp/docker-$VER.tgz
             mv /tmp/docker/* /usr/bin
+     
 
       - run:
-          name: install_pip
+          name: build_api
+          command: |
+            mkdir /opt/build
+            cp -r . /opt/build
+            cd /opt/build && stack build --system-ghc
+
+      - run:
+          name: containerize_build
+          command: |
+            cd back-end
+            docker build . -t 160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example:latest -f DockerfileExe
+
+      - save-cache:
+          key: stack-{{ checksum “stack.yaml” }}
+          paths:
+            - “~/.stack”
+
+
+      - restore-cache:
+          keys: stack-{{checksum “stack.yaml”}}-{{checksum “project.cabal”}}
+          paths:
+            - “./back-end/.stack-work”
+
+      -run:
+        name: install_pip
           command: |
             sudo apt-get update
             sudo apt-get -y install python-pip
@@ -37,20 +69,8 @@ jobs:
           command: pip install --upgrade --user awsebcli
 
       - run:
-          name: install hasm
-          command: |
-            git clone git@github.com:smaccoun/create-haskstar-app.git
-            cd create-haskstar-app
-            ./install.sh
-            rm -rf create-haskstar-app
-            cd ../
-
-
-      - run:
           name: deploy
-          no_output_timeout: 120m
-          command: |
-            ($(aws ecr get-login --region us-west-1) && hasm deploy staging --SHA1 $CIRCLE_SHA1)
+          command: ($(aws ecr get-login --region us-west-1) && docker push 160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example:latest)
 
 
 
