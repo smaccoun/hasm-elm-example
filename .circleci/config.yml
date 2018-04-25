@@ -10,10 +10,19 @@ jobs:
 
       - restore-cache:
           keys:
-            - stack-{{ checksum “stack.yaml” }}
+            - stack-{{ checksum “./back-end/stack.yaml” }}
       - restore-cache:
           keys:
-            - stack-{{checksum “stack.yaml”}}-{{checksum “project.cabal”}}
+            - stack-{{checksum “./back-end/stack.yaml”}}-{{checksum “./back-end/api.cabal”}}
+
+      - run:
+          name: build_api
+          command: |
+            mkdir /opt/build
+            cp -r $CIRCLE_WORKING_DIRECTORY /opt/build
+            cd /opt/build
+            ls
+            stack build --system-ghc
 
       - setup_remote_docker:
           docker_layer_caching: true
@@ -26,14 +35,6 @@ jobs:
             curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
             tar -xz -C /tmp -f /tmp/docker-$VER.tgz
             mv /tmp/docker/* /usr/bin
-     
-
-      - run:
-          name: build_api
-          command: |
-            mkdir /opt/build
-            cp -r . /opt/build
-            cd /opt/build && stack build --system-ghc
 
       - run:
           name: containerize_build
@@ -42,13 +43,13 @@ jobs:
             docker build . -t 160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example:latest -f DockerfileExe
 
       - save-cache:
-          key: stack-{{ checksum “stack.yaml” }}
+          key: stack-{{ checksum “./back-end/stack.yaml” }}
           paths:
             - “~/.stack”
 
 
       - restore-cache:
-          keys: stack-{{checksum “stack.yaml”}}-{{checksum “project.cabal”}}
+          keys: stack-{{checksum “./back-end/stack.yaml”}}-{{checksum “./back-end/api.cabal”}}
           paths:
             - “./back-end/.stack-work”
 
