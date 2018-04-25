@@ -52,7 +52,7 @@ jobs:
 
 
       - save-cache:
-          keys: stack-{{checksum "back-end/stack.yaml"}}-{{checksum "back-end/api.cabal"}}
+          key: stack-{{checksum "back-end/stack.yaml"}}-{{checksum "back-end/api.cabal"}}
           paths:
             - "/opt/build/.stack-work"
 
