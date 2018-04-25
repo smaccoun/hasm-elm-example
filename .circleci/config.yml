@@ -10,10 +10,10 @@ jobs:
 
       - restore-cache:
           keys:
-            - stack-{{ checksum "/opt/build/stack.yaml" }}
+            - stack-{{ checksum "back-end/stack.yaml" }}
       - restore-cache:
           keys:
-            - stack-{{ checksum "/opt/build/stack.yaml"}}-{{ checksum "/opt/build/api.cabal"}}
+            - stack-{{ checksum "back-end/stack.yaml"}}-{{ checksum "back-end/api.cabal"}}
 
       - run:
           name: build_api
@@ -51,8 +51,8 @@ jobs:
             - "~/.stack"
 
 
-      - restore-cache:
-          keys: stack-{{checksum "/opt/build/stack.yaml"}}-{{checksum "/opt/build/api.cabal"}}
+      - save-cache:
+          keys: stack-{{checksum "back-end/stack.yaml"}}-{{checksum "back-end/api.cabal"}}
           paths:
             - "/opt/build/.stack-work"
 
@@ -74,7 +74,9 @@ jobs:
 
       - run:
           name: deploy
-          command: ($(aws ecr get-login --region us-west-1) && docker push 160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example:latest)
+          command: |
+            docker image ls
+            ($(aws ecr get-login --region us-west-1) && docker push 160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example:latest)
 
 
 
