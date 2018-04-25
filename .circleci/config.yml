@@ -52,8 +52,8 @@ jobs:
           paths:
             - “./back-end/.stack-work”
 
-      -run:
-        name: install_pip
+      - run:
+          name: install_pip
           command: |
             sudo apt-get update
             sudo apt-get -y install python-pip
