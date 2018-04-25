@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example:f596c827adf83a381db46e4fb8da10c29364e76d",
+    "Name": "160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example:940cb95f58337a69e65751a80b50bda4f690d2bd",
     "Update": "true"
   },
   "Ports": [
