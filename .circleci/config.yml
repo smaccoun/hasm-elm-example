@@ -10,16 +10,16 @@ jobs:
 
       - restore-cache:
           keys:
-            - stack-{{ checksum “./back-end/stack.yaml” }}
+            - stack-{{ checksum "/opt/build/stack.yaml" }}
       - restore-cache:
           keys:
-            - stack-{{checksum “./back-end/stack.yaml”}}-{{checksum “./back-end/api.cabal”}}
+            - stack-{{ checksum "/opt/build/stack.yaml"}}-{{ checksum "/opt/build/api.cabal"}}
 
       - run:
           name: build_api
           command: |
             mkdir /opt/build
-            cp -r $CIRCLE_WORKING_DIRECTORY /opt/build
+            cp -r ~/projects /opt/build
             cd /opt/build
             ls
             stack build --system-ghc
@@ -43,15 +43,15 @@ jobs:
             docker build . -t 160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example:latest -f DockerfileExe
 
       - save-cache:
-          key: stack-{{ checksum “./back-end/stack.yaml” }}
+          key: stack-{{ checksum "./back-end/stack.yaml" }}
           paths:
-            - “~/.stack”
+            - "~/.stack"
 
 
       - restore-cache:
-          keys: stack-{{checksum “./back-end/stack.yaml”}}-{{checksum “./back-end/api.cabal”}}
+          keys: stack-{{checksum "/opt/build/stack.yaml"}}-{{checksum "/opt/build/api.cabal"}}
           paths:
-            - “./back-end/.stack-work”
+            - "/opt/build/.stack-work"
 
       - run:
           name: install_pip
