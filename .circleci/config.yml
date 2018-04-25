@@ -20,7 +20,7 @@ jobs:
           command: |
             ls -la
             mkdir /opt/build
-            cp -r ./back-end /opt/build
+            cp -r ./back-end/* /opt/build
             cd /opt/build
             ls
             stack build --system-ghc
