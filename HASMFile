@@ -1,2 +1,2 @@
 remoteDockerContainer: 160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example
-appName: example-app
+appName: hasm-elm-example

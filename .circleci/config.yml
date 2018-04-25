@@ -19,6 +19,7 @@ jobs:
           name: build_api
           command: |
             ls -la
+            ls -la ~/
             mkdir /opt/build
             cp -r ./back-end/* /opt/build
             cd /opt/build
@@ -40,7 +41,8 @@ jobs:
       - run:
           name: containerize_build
           command: |
-            cd back-end
+            cd /opt/build
+            ls -la
             docker build . -t 160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example:latest -f DockerfileExe
 
       - save-cache:
