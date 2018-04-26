@@ -49,7 +49,7 @@ jobs:
           key: stack-{{ .Branch }}-{{ checksum "back-end/stack.yaml" }}
           paths:
             - ~/.stack
-            - ./.stack-work
+            - ./back-end/.stack-work
 
       - run:
           name: install_pip
