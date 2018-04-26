@@ -24,7 +24,8 @@ jobs:
             cp -r ./back-end/* /opt/build
             cd /opt/build
             ls
-            stack build --system-ghc
+            stack setup
+            stack build
 
       - setup_remote_docker:
           docker_layer_caching: true
