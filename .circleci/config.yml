@@ -69,8 +69,8 @@ jobs:
           name: deploy
           command: |
             docker image ls
-            ($(aws ecr get-login --region us-east-1) && docker push 160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example:latest)
-
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push hasm-elm-example:latest
 
 
 workflows:
