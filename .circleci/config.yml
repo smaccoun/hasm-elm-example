@@ -20,7 +20,7 @@ jobs:
           command: |
             ls -la
             ls -la ~/
-            mkdir /opt/build
+            mkdir -p /opt/build
             cp -r ./back-end/* /opt/build
             cd /opt/build
             ls
