@@ -19,7 +19,7 @@ jobs:
           name: build_api
           command: |
             ls -la
-            ls -la ~/
+            ls -la ~/.stack/build-plan-cache
             mkdir -p /opt/build
             cp -r ./back-end/* /opt/build
             cd /opt/build
