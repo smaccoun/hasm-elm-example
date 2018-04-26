@@ -10,7 +10,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - stack-{{ .Branch }}-{{ checksum "stack.yaml" }}
+            - stack-{{ .Branch }}-{{ checksum "back-end/stack.yaml" }}
             - stack-{{ .Branch }}
             - stack-
 
@@ -46,7 +46,7 @@ jobs:
             docker build --rm=false -t 160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example:latest -f DockerfileExe .
 
       - save_cache:
-          key: stack-{{ .Branch }}-{{ checksum "stack.yaml" }}
+          key: stack-{{ .Branch }}-{{ checksum "back-end/stack.yaml" }}
           paths:
             - ~/.stack
             - ./.stack-work
