@@ -10,16 +10,16 @@ jobs:
 
       - restore-cache:
           keys:
-            - stack-{{ checksum "back-end/stack.yaml" }}
+            - stack-v1-{{ checksum "~/.stack" }}
       - restore-cache:
           keys:
-            - stack-{{ checksum "back-end/stack.yaml"}}-{{ checksum "back-end/api.cabal"}}
+            - stack-v1-{{ checksum "back-end/stack.yaml"}}-{{ checksum "back-end/api.cabal"}}
 
       - run:
           name: build_api
           command: |
             ls -la
-            ls -la ~/.stack/build-plan-cache
+            ls -la ~/.stack
             mkdir -p /opt/build
             cp -r ./back-end/* /opt/build
             cd /opt/build
@@ -47,13 +47,13 @@ jobs:
             docker build --rm=false -t 160859074713.dkr.ecr.us-west-1.amazonaws.com/hasm-elm-example:latest -f DockerfileExe .
 
       - save-cache:
-          key: stack-{{ checksum "./back-end/stack.yaml" }}
+          key: stack-v1-{{ checksum "~/.stack" }}
           paths:
             - "~/.stack"
 
 
       - save-cache:
-          key: stack-{{checksum "back-end/stack.yaml"}}-{{checksum "back-end/api.cabal"}}
+          key: stack-v1-{{checksum "back-end/stack.yaml"}}-{{checksum "back-end/api.cabal"}}
           paths:
             - "/opt/build/.stack-work"
 
