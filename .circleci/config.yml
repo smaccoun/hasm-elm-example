@@ -58,10 +58,10 @@ jobs:
             pip install --upgrade botocore
 
       - run:
-        name: build_frontend
-        command: |
-          cd front-end
-          docker build . -t smaccoun/hasm-elm-example-frontend:$CIRCLE_SHA1
+          name: build_frontend
+          command: |
+            cd front-end
+            docker build . -t smaccoun/hasm-elm-example-frontend:$CIRCLE_SHA1
 
       - run:
           name: deploy
