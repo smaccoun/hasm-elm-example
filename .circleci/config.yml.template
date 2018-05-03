@@ -41,7 +41,7 @@ jobs:
           command: |
             cd /opt/build
             ls -la
-            docker build --rm=false -t smaccoun/hasm-elm-example-backend:$CIRCLE_SHA1 -f DockerfileExe .
+            docker build --rm=false -t <<dockerRepoBackendImage>>:$CIRCLE_SHA1 -f DockerfileExe .
 
       - save_cache:
           key: stack-{{ .Branch }}-{{ checksum "./back-end/stack.yaml" }}
@@ -61,15 +61,15 @@ jobs:
         name: build_frontend
         command: |
           cd front-end
-          docker build . -t smaccoun/hasm-elm-example-frontend:$CIRCLE_SHA1
+          docker build . -t <<dockerRepoFrontendImage>>:$CIRCLE_SHA1
 
       - run:
           name: deploy
           command: |
             docker image ls
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push smaccoun/hasm-elm-example-backend:$CIRCLE_SHA1
-            docker push smaccoun/hasm-elm-example-frontend:$CIRCLE_SHA1
+            docker push <<dockerRepoBackendImage>>:$CIRCLE_SHA1
+            docker push <<dockerRepoFrontendImage>>:$CIRCLE_SHA1
 
 
 workflows:

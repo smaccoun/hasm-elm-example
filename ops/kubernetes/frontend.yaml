@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  selector:
+    app: hasm-elm-example-web
+    tier: frontend
+  ports:
+  - protocol: "TCP"
+    port: 3000
+    targetPort: 3000
+  type: LoadBalancer
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  selector:
+    matchLabels:
+      app: hasm-elm-example
+      tier: frontend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hasm-elm-example
+        tier: frontend
+        track: stable
+    spec:
+      containers:
+      - name: hasm-elm-example-web
+        image: "smaccoun/hasm-elm-example"
+        ports:
+            - containerPort: 3000
+              name: "external"
+              protocol: "TCP"
+        

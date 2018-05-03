@@ -23,8 +23,7 @@ data PGConnect = PGConnect {
 
 instance FromEnv PGConnect where
   fromEnv =
-     PGConnect  
-        <$> env "POSTGRES_USER"
+     PGConnect  <$> env "POSTGRES_USER"
         <*> env "POSTGRES_PASSWORD"
         <*> env "POSTGRES_DB"
         <*> env "POSTGRES_PORT"
@@ -32,13 +31,13 @@ instance FromEnv PGConnect where
 
 mapConInfo :: PGConnect -> ConnectInfo
 mapConInfo (PGConnect pgUser pgPass pgDB pgPort pgHost) =
-  defaultConnectInfo 
-	  { connectUser = pgUser
-          , connectPassword = pgPass
-          , connectDatabase=pgDB
-          , connectPort = fromInteger pgPort 
-	  , connectHost = pgHost
-          }
+  defaultConnectInfo
+    { connectUser = pgUser
+    , connectPassword = pgPass
+    , connectDatabase=pgDB
+    , connectPort = fromInteger pgPort
+    , connectHost = pgHost
+    }
 
 getConnInfo :: IO (ConnectInfo)
 getConnInfo = do

@@ -1,14 +1,12 @@
 kind: "Service"
 apiVersion: "v1"
 metadata:
-  name: hasm-elm-api
-  labels:
-    name: hasm-elm-api
-    version: 1.0.0
+  name: hasm-elm-example
 spec:
   type: LoadBalancer
   ports:
     - port: 80
       targetPort: external
   selector:
-    name: hasm-elm-api
+    app: hasm-elm-example
+    tier: backend

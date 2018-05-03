@@ -21,37 +21,10 @@ spec:
       containers:
         - name: "hasm-elm-example"
           image: "gcr.io/hasm-elm-example/hasm-elm-example:v1"
-          env:
-            - name: DB_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: envvars
-                  key: DB_HOST 
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: envvars
-                  key: DB_USERNAME
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: envvars
-                  key: DB_PASSWORD 
-            - name: DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: envvars
-                  key: DB_PORT
-            - name: DB_SCHEMA
-              valueFrom:
-                secretKeyRef:
-                  name: envvars
-                  key: DB_SCHEMA
-            - name: AUTH_JWK
-              valueFrom:
-                secretKeyRef:
-                  name: envvars
-                  key: AUTH_JWK        
+          envFrom:
+            - configMapRef:
+                name: hasm-elm-envvars
+          terminationMessagePath: "/tmp/my-log"   
           resources:
             requests:
               memory: 10Mi
