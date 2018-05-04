@@ -27,7 +27,7 @@ jobs:
       - run:
           name: ca_basics
           command: |
-            apt-get update && apt-get install -y ca-certificates libgmp-dev
+            apt-get update && apt-get install -y ca-certificates libgmp-dev libnss3 libnss-lwres libnss-mdns
 
       - run:
           name: build_api
