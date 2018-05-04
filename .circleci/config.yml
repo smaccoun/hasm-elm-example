@@ -12,18 +12,6 @@ jobs:
           keys:
             - stack-{{ .Branch }}-{{ checksum "./back-end/stack.yaml" }}
 
-      - run:
-          name: build_api
-          command: |
-            ls -la
-            ls -la ~/.stack
-            mkdir -p /opt/build
-            cp -r ./back-end/* /opt/build
-            cd /opt/build
-            ls
-            stack setup
-            stack build
-
       - setup_remote_docker:
           docker_layer_caching: true
 
@@ -40,6 +28,20 @@ jobs:
           name: ca_basics
           command: |
             apt-get update && apt-get install -y ca-certificates libgmp-dev
+
+      - run:
+          name: build_api
+          command: |
+            ls -la
+            ls -la ~/.stack
+            mkdir -p /opt/build
+            cp -r ./back-end/* /opt/build
+            cd /opt/build
+            ls
+            stack setup
+            stack build
+
+
 
       - run:
           name: containerize_build
