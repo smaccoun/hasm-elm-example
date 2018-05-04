@@ -5,7 +5,7 @@ WORKDIR /app/
 COPY ./ ./
 RUN apt-get update && apt-get install -y \
   ca-certificates \
-  libgmp-dev netbase libnss-lwres libnss-mdns libss3 
+  libgmp-dev libnss3 netbase libnss-lwres libnss-mdns  
 RUN ["yarn", "add", "global", "elm"]
 RUN ["yarn", "build"]
 RUN npm install -g serve
