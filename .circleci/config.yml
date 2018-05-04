@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: haskell:8.2
+      - image: fpco/stack-build:lts-11.2
 
     steps:
       - checkout
@@ -27,7 +27,7 @@ jobs:
       - run:
           name: ca_basics
           command: |
-            apt-get update && apt-get install -y ca-certificates libgmp-dev libnss3 libnss-lwres libnss-mdns
+            apt-get update && apt-get install -y ca-certificates libgmp-dev libnss3 libnss-lwres libnss-mdns netbase
 
       - run:
           name: build_api
