@@ -37,6 +37,11 @@ jobs:
             mv /tmp/docker/* /usr/bin
 
       - run:
+          name: ca_basics
+          command: |
+            apt-get update && apt-get install -y ca-certificates libgmp-dev
+
+      - run:
           name: containerize_build
           command: |
             cd /opt/build
