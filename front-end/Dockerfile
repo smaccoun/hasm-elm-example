@@ -1,9 +1,12 @@
-FROM node:8
+FROM node:9
+
 
 WORKDIR /app/
-COPY ./build  ./
-
+COPY ./ ./
+RUN ["yarn", "add", "global", "elm"]
+RUN ["yarn", "build"]
 RUN npm install -g serve
-CMD serve -s . -p 3000
 
-EXPOSE 3000 3000
+CMD serve -s ./build -p 3000
+
+EXPOSE 3000
