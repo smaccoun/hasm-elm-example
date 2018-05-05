@@ -1,7 +1,20 @@
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: {{appName}}
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: external
+  selector:
+    app: {{appName}}
+    tier: backend
+---
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: hasm-elm-example
+  name: {{appName}}-backend
 spec:
   replicas: 1
   revisionHistoryLimit: 5
@@ -9,22 +22,22 @@ spec:
     type: "RollingUpdate"  
   selector:
     matchLabels:
-      app: "hasm-elm-example"
+      app: "{{appName}}"
       tier: backend
       track: stable
   template:
     metadata:
       labels:
-        app: "hasm-elm-example"
+        app: "{{appName}}"
         tier: backend
         track: stable
     spec:
       containers:
-        - name: "hasm-elm-example"
-          image: "smaccoun/hasm-elm-example"
+        - name: "{{appName}}-backend"
+          image: "{{remoteDockerImage}}"
           envFrom:
             - configMapRef:
-                name: "hasm-elm-example-envvars" 
+                name: "{{appName}}-envvars" 
           terminationMessagePath: "/tmp/my-log"   
           resources:
             requests:
